@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios-0.18.0.js"></script>
+    <link href="css/login.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="loginDiv" style="height: 350px">
+    <form action="" id="form" method="post">
+        <h1 id="loginMsg">LOGIN IN</h1>
+        <div id="errorMsg" v-model="errorMsg">{{errorMsg}}</div>
+        <p>Username:<input id="username" name="username" v-model="form2.username" type="text"></p>
+        <p>Password:<input id="password" name="password" v-model="form2.password" type="password"></p>
+        <p>Remember:<input id="remember" name="remember" v-model="form2.remember" type="checkbox"></p>
+        <div id="subDiv">
+            <input type="button" class="button" value="login up" @click="submit()">
+            <input type="reset" class="button" value="reset">&nbsp;&nbsp;&nbsp;
+            <a href="register.html">没有账号？</a>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    new Vue({
+        el: "#loginDiv",
+        data() {
+            return {
+                form2: {
+                    username: "",
+                    password: "",
+                    remember: ""
+                },
+                errorMsg: ""
+            }
+        },
+        methods: {
+            submit() {
+                var _this = this;
+                axios.post("http://localhost:8080/brand_demo/loginServlet", _this.form2).then(function (resp) {
+                    if (resp.data.toString() == "true") {
+                        location.href = "http://localhost:8080/brand_demo/6-brand.html"
+                    } else {
+                        _this.errorMsg = resp.data;
+                    }
+                })
+            }
+        },
+    });
+
+</script>
+</body>
+</html>
